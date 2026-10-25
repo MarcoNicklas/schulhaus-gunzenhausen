@@ -31,7 +31,7 @@ button:disabled{opacity:.6;cursor:wait}
   <div class="msg" id="msg" role="alert"></div>
 </form>
 <script>
-const M = {"salt": "9ee1569b1affa3cdb10cfae5f3d7bb26", "iv": "c2b34e9e4a86da1c8437c430", "it": 250000, "file": "schulhaus.bin"};
+const M = {"salt": "c6e2a9521cf7142aa0ce01156ee9554b", "iv": "0ebfec7e507d90d8242032f4", "it": 250000, "file": "schulhaus.bin"};
 const hex = h => new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 const msg = document.getElementById('msg'), btn = document.getElementById('go');
 let dataP = null;
@@ -46,16 +46,16 @@ async function open(pw, remember){
     try { plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:hex(M.iv)}, key, ct); }
     catch { throw new Error('pw'); }
     const html = await new Response(new Blob([plain]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
-    try { remember ? localStorage.setItem('schulhaus-pw', pw) : localStorage.removeItem('schulhaus-pw'); } catch {}
+    try { remember ? localStorage.setItem('schulhaus-pw2', pw) : localStorage.removeItem('schulhaus-pw2'); } catch {}
     document.open(); document.write(html); document.close();
   } catch(e){
     btn.disabled = false; btn.textContent = 'Öffnen';
     msg.textContent = e.message === 'pw' ? 'Das Passwort stimmt nicht. Bitte noch einmal versuchen.' : 'Die Seite konnte nicht geladen werden. Bitte Internetverbindung prüfen und neu laden.';
-    try { localStorage.removeItem('schulhaus-pw'); } catch {}
+    try { localStorage.removeItem('schulhaus-pw2'); } catch {}
   }
 }
 document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); open(document.getElementById('pw').value, document.getElementById('keep').checked); });
-let saved = null; try { saved = localStorage.getItem('schulhaus-pw'); } catch {}
+let saved = null; try { saved = localStorage.getItem('schulhaus-pw2'); } catch {}
 if (saved) { document.getElementById('keep').checked = true; open(saved, true); }
 </script>
 </body></html>
