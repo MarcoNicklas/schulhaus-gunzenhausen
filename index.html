@@ -2,6 +2,7 @@
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wirtschaftsschule Gunzenhausen</title>
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Familjen+Grotesk:wght@400;600&display=swap">
 <style>
 :root{--bg:#EDF0EC;--surface:#fff;--ink:#1B2420;--muted:#56635B;--line:#D3D9D3;--accent:#2C8A44;--accent-ink:#fff;--err:#B3261E;--glas:#3F6F7B}
@@ -35,7 +36,7 @@ const M = {"salt": "b515fca8be28f12d76ee2fd7658e77a1", "iv": "3ab2a28cc8b82fc051
 const hex = h => new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 const msg = document.getElementById('msg'), btn = document.getElementById('go');
 let dataP = null;
-const getData = () => dataP ||= fetch(M.file).then(r => { if(!r.ok) throw new Error('load'); return r.arrayBuffer(); });
+const getData = () => dataP ||= fetch(M.file + '?v=' + M.salt.slice(0,8), {cache:'no-cache'}).then(r => { if(!r.ok) throw new Error('load'); return r.arrayBuffer(); });
 async function open(pw, remember){
   btn.disabled = true; btn.textContent = 'Wird geöffnet …'; msg.textContent = '';
   try{
